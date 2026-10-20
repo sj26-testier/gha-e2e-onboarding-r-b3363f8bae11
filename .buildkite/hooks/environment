@@ -1,4 +1,0 @@
-#!/usr/bin/env bash
-set -euo pipefail
-export INVENTORY_REAL_AGENT="$(command -v buildkite-agent)"
-export PATH="$BUILDKITE_BUILD_CHECKOUT_PATH/.lab/bin:$PATH"

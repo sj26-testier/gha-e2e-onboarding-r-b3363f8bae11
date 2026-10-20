@@ -23,7 +23,7 @@ jobs:
         uses: actions/cache/save@0057852bfaa89a56745cba8c7296529d2fc39830
         with:
           path: .lab-cache-probe
-          key: lab-win-b3363f8bae11-baseline
+          key: lab-win-b3363f8bae11-b2-baseline
           enableCrossOsArchive: true
       - name: Remove payload before baseline restore
         run: Remove-Item -LiteralPath '.lab-cache-probe' -Recurse -Force
@@ -32,7 +32,7 @@ jobs:
         uses: actions/cache/restore@0057852bfaa89a56745cba8c7296529d2fc39830
         with:
           path: .lab-cache-probe
-          key: lab-win-b3363f8bae11-baseline
+          key: lab-win-b3363f8bae11-b2-baseline
           enableCrossOsArchive: true
           fail-on-cache-miss: true
       - name: Verify baseline bytes and exact hit
@@ -41,7 +41,7 @@ jobs:
           MATCHED_KEY: ${{ steps.baseline.outputs.cache-matched-key }}
           EXPECTED_SHA256: ${{ steps.seed.outputs.sha256 }}
         run: |
-          if ($env:CACHE_HIT -cne 'true' -or $env:MATCHED_KEY -cne 'lab-win-b3363f8bae11-baseline') { throw 'Not exact baseline cache hit' }
+          if ($env:CACHE_HIT -cne 'true' -or $env:MATCHED_KEY -cne 'lab-win-b3363f8bae11-b2-baseline') { throw 'Not exact baseline cache hit' }
           if ((Get-FileHash '.lab-cache-probe/payload.txt' -Algorithm SHA256).Hash -cne $env:EXPECTED_SHA256) { throw 'Baseline restored bytes differ' }
           Write-Output 'PASS_BASELINE_EXACT_HIT_AND_SHA256'
       - name: Bridge installed tools in this disposable job only
@@ -50,7 +50,7 @@ jobs:
         uses: actions/cache/save@0057852bfaa89a56745cba8c7296529d2fc39830
         with:
           path: .lab-cache-probe
-          key: lab-win-b3363f8bae11-bridged
+          key: lab-win-b3363f8bae11-b2-bridged
           enableCrossOsArchive: true
       - name: Remove payload before bridged restore
         run: Remove-Item -LiteralPath '.lab-cache-probe' -Recurse -Force
@@ -59,7 +59,7 @@ jobs:
         uses: actions/cache/restore@0057852bfaa89a56745cba8c7296529d2fc39830
         with:
           path: .lab-cache-probe
-          key: lab-win-b3363f8bae11-bridged
+          key: lab-win-b3363f8bae11-b2-bridged
           enableCrossOsArchive: true
           fail-on-cache-miss: true
       - name: Verify bridged bytes and exact hit
@@ -68,7 +68,7 @@ jobs:
           MATCHED_KEY: ${{ steps.bridged.outputs.cache-matched-key }}
           EXPECTED_SHA256: ${{ steps.seed.outputs.sha256 }}
         run: |
-          if ($env:CACHE_HIT -cne 'true' -or $env:MATCHED_KEY -cne 'lab-win-b3363f8bae11-bridged') { throw 'Not exact bridged cache hit' }
+          if ($env:CACHE_HIT -cne 'true' -or $env:MATCHED_KEY -cne 'lab-win-b3363f8bae11-b2-bridged') { throw 'Not exact bridged cache hit' }
           if ((Get-FileHash '.lab-cache-probe/payload.txt' -Algorithm SHA256).Hash -cne $env:EXPECTED_SHA256) { throw 'Bridged restored bytes differ' }
           Write-Output 'PASS_BRIDGED_EXACT_HIT_AND_SHA256'
           ./.lab/inventory/probe.ps1 -Phase final
